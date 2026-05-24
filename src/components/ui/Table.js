@@ -1,0 +1,4 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+export function Table({ columns, rows }) {
+    return (_jsx("div", { className: "overflow-x-auto rounded-lg border border-surface-800", children: _jsxs("table", { className: "w-full text-sm", children: [_jsx("thead", { children: _jsx("tr", { className: "border-b border-surface-800 bg-surface-900", children: columns.map((col) => (_jsx("th", { className: "px-4 py-2 text-left font-medium text-surface-400", children: col }, col))) }) }), _jsx("tbody", { children: rows.map((row, i) => (_jsx("tr", { className: "border-b border-surface-800/50 last:border-0 hover:bg-surface-900/50 transition-colors", children: columns.map((col) => (_jsx("td", { className: "px-4 py-2 font-mono text-surface-200", children: String(row[col] ?? "NULL") }, col))) }, i))) })] }) }));
+}
