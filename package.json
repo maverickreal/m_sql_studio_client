@@ -7,6 +7,7 @@
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"test": "vitest run",
+		"test:e2e": "playwright test",
 		"preview": "vite preview",
 		"health:check": "biome check .",
 		"health:fix": "biome check --write --unsafe ."
@@ -26,6 +27,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.0",
+		"@playwright/test": "^1.55.0",
 		"@tailwindcss/vite": "^4.1.6",
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.4.0",
