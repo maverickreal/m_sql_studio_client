@@ -37,13 +37,13 @@ function renderTable(rows: string[], key: string): ReactNode {
 	const header = splitRow(rows[0]);
 	const body = rows.slice(2).map(splitRow);
 	return (
-		<table key={key} className="my-2 w-full border-collapse">
+		<table key={key} className="my-2 w-full border-collapse text-fg">
 			<thead>
-				<tr>
+				<tr className="bg-surface-900">
 					{header.map((cell) => (
 						<th
 							key={cell}
-							className="border border-surface-700 px-2 py-1 text-left"
+							className="border border-surface-700 px-2 py-1 text-left font-medium text-fg"
 						>
 							{renderInline(cell)}
 						</th>
@@ -51,10 +51,16 @@ function renderTable(rows: string[], key: string): ReactNode {
 				</tr>
 			</thead>
 			<tbody>
-				{body.map((cells) => (
-					<tr key={cells.join("|")}>
+				{body.map((cells, i) => (
+					<tr
+						key={cells.join("|")}
+						className={i % 2 === 1 ? "bg-surface-900/50" : undefined}
+					>
 						{cells.map((cell) => (
-							<td key={cell} className="border border-surface-700 px-2 py-1">
+							<td
+								key={cell}
+								className="border border-surface-700 px-2 py-1 text-fg"
+							>
 								{renderInline(cell)}
 							</td>
 						))}

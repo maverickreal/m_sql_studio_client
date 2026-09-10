@@ -32,6 +32,24 @@ function CommunityInfo({ assignment }: { assignment: AssignmentDetail }) {
 	);
 }
 
+/** Problem YAML `sampleInput` is table sketches: `table(col, col)`. Seed data is markdown rows. */
+function isSchemaSketch(lines: string[]): boolean {
+	if (lines.length === 0) return false;
+	const sketch = /^[A-Za-z_][\w.]*\s*\([^)]+\)$/;
+	return lines.every((line) => sketch.test(line.trim()));
+}
+
+function SampleIoPanel({ title, body }: { title: string; body: string }) {
+	return (
+		<div className="mt-4">
+			<h3 className="font-semibold text-sm text-surface-300">{title}</h3>
+			<div className="mt-1 rounded-lg border border-surface-800 bg-surface-950 p-3 text-surface-200">
+				<MarkdownContent className="font-mono text-sm">{body}</MarkdownContent>
+			</div>
+		</div>
+	);
+}
+
 export function AssignmentDetailPage() {
 	useAuth();
 	const { id } = useParams<{ id: string }>();
@@ -98,29 +116,21 @@ export function AssignmentDetailPage() {
 						</div>
 
 						{data.assignment.sampleInput.length > 0 && (
-							<div className="mt-4">
-								<h3 className="font-semibold text-sm text-surface-300">
-									Sample Input
-								</h3>
-								<div className="mt-1 rounded-lg border border-surface-800 bg-surface-950 p-3">
-									<MarkdownContent className="font-mono text-sm text-surface-400">
-										{data.assignment.sampleInput.join("\n")}
-									</MarkdownContent>
-								</div>
-							</div>
+							<SampleIoPanel
+								title={
+									isSchemaSketch(data.assignment.sampleInput)
+										? "Schema"
+										: "Sample Input"
+								}
+								body={data.assignment.sampleInput.join("\n")}
+							/>
 						)}
 
 						{data.assignment.sampleOutput && (
-							<div className="mt-4">
-								<h3 className="font-semibold text-sm text-surface-300">
-									Expected Output
-								</h3>
-								<div className="mt-1 rounded-lg border border-surface-800 bg-surface-950 p-3">
-									<MarkdownContent className="font-mono text-sm text-surface-400">
-										{data.assignment.sampleOutput}
-									</MarkdownContent>
-								</div>
-							</div>
+							<SampleIoPanel
+								title="Expected Output"
+								body={data.assignment.sampleOutput}
+							/>
 						)}
 
 						{!sessionReady ? (
