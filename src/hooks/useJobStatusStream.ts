@@ -6,11 +6,9 @@ import {
 } from "../features/sql-editor/executionSlice";
 import type { AppDispatch } from "../store";
 import { useGetJobStatusQuery } from "../store/api";
+import { apiUrl } from "../config/apiBase";
 import type { SqlExecutionResult } from "../types";
 import { getErrorMessage } from "../utils/errors";
-
-const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 
 function terminalPayloadToAction(payload: {
 	status: string;
@@ -57,7 +55,9 @@ export function useJobStatusStream(taskId: string | null) {
 		}
 
 		const source = new EventSource(
-			`${API_BASE_URL}/api/v1/assignments/client-sql-code-run/status/${taskId}/stream`,
+			apiUrl(
+				`/api/v1/assignments/client-sql-code-run/status/${taskId}/stream`,
+			),
 			{ withCredentials: true },
 		);
 

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { apiBaseUrl } from "../config/apiBase";
 import type {
 	Assignment,
 	AssignmentDetail,
@@ -73,7 +74,7 @@ export const api = createApi({
 	reducerPath: "api",
 
 	baseQuery: fetchBaseQuery({
-		baseUrl: import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000",
+		baseUrl: apiBaseUrl(),
 		credentials: "include",
 	}),
 
