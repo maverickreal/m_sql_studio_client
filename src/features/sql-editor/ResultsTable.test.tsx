@@ -19,6 +19,24 @@ describe("ResultsTable", () => {
 		unmount();
 	});
 
+	it("renders hint when error result has hint", () => {
+		const { unmount } = render(
+			<ResultsTable
+				result={{
+					success: false,
+					error: "Syntax error in SQL",
+					hint: "Check your JOIN syntax",
+				} as any}
+			/>,
+		);
+
+		expect(screen.getByText("Error")).toBeTruthy();
+		expect(screen.getByText("Syntax error in SQL")).toBeTruthy();
+		expect(screen.getByText("Hint")).toBeTruthy();
+		expect(screen.getByText("Check your JOIN syntax")).toBeTruthy();
+		unmount();
+	});
+
 	it("renders success badge when result.passed is true", () => {
 		const { unmount } = render(
 			<ResultsTable

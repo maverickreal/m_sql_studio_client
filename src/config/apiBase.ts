@@ -6,7 +6,8 @@ export function resolveApiBase(raw: string | undefined): string {
 	if (typeof window !== "undefined" && window.location?.origin) {
 		return window.location.origin.replace(/\/$/, "");
 	}
-	return "http://127.0.0.1:8000";
+	// SSR fallback — empty string means same-origin at runtime via browser window.location
+	return "";
 }
 
 export function apiBaseUrl(): string {

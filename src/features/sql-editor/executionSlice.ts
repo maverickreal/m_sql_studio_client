@@ -31,9 +31,15 @@ const executionSlice = createSlice({
 			state.phase = "done";
 			state.result = action.payload;
 		},
-		executionFailed(state, action: PayloadAction<string>) {
+		executionFailed(state, action: PayloadAction<SqlExecutionResult | string>) {
 			state.phase = "error";
-			state.error = action.payload;
+			if (typeof action.payload === "string") {
+				state.error = action.payload;
+				state.result = { success: false, error: action.payload };
+			} else {
+				state.error = "error" in action.payload ? action.payload.error : "Unknown error";
+				state.result = action.payload;
+			}
 		},
 		resetExecution(state) {
 			state.phase = "idle";

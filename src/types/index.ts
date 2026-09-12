@@ -35,11 +35,13 @@ export interface SqlExecutionSuccess {
 	columns: string[];
 	rowCount: number;
 	executionTimeMs: number;
+	hint?: string;
 }
 
 export interface SqlExecutionError {
 	success: false;
 	error: string;
+	hint?: string;
 }
 
 export type SqlExecutionResult = SqlExecutionSuccess | SqlExecutionError;

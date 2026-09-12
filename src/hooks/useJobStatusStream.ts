@@ -18,11 +18,14 @@ function terminalPayloadToAction(payload: {
 		return executionCompleted(payload.result);
 	}
 	if (payload.status === "failed") {
-		const message =
-			payload.result && "error" in payload.result
-				? payload.result.error
-				: "SQL execution failed";
-		return executionFailed(message);
+		const result = payload.result;
+		if (!result) {
+			return executionFailed("SQL execution failed");
+		}
+		if ("error" in result) {
+			return executionFailed(result);
+		}
+		return executionFailed("SQL execution failed");
 	}
 	return null;
 }

@@ -132,6 +132,32 @@ describe("useJobStatusStream", () => {
 		expect(source.close).toHaveBeenCalled();
 	});
 
+	it("dispatches executionFailed with hint when job-status failed includes hint", () => {
+		const { store } = setup("task-123");
+		const source = FakeEventSource.instances[0];
+
+		act(() => {
+			source.fire("job-status", {
+				status: "failed",
+				result: {
+					success: false,
+					error: "Syntax error in SQL",
+					hint: "Check your JOIN syntax",
+				},
+			});
+		});
+
+		const state = store.getState().execution;
+		expect(state.phase).toBe("error");
+		expect(state.error).toBe("Syntax error in SQL");
+		expect(state.result).toEqual({
+			success: false,
+			error: "Syntax error in SQL",
+			hint: "Check your JOIN syntax",
+		});
+		expect(source.close).toHaveBeenCalled();
+	});
+
 	it("falls back to 1s polling when EventSource triggers onerror", () => {
 		const { store } = setup("task-123");
 		const source = FakeEventSource.instances[0];

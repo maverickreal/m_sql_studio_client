@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { resolveApiBase } from "./apiBase";
 
 describe("resolveApiBase", () => {
@@ -8,8 +8,9 @@ describe("resolveApiBase", () => {
 		);
 	});
 
-	it("falls back to an absolute URL when unset", () => {
-		const base = resolveApiBase("");
-		expect(base.startsWith("http")).toBe(true);
+	it("returns empty string when unset (SSR fallback - same-origin at runtime)", () => {
+		vi.stubGlobal("window", undefined);
+		expect(resolveApiBase("")).toBe("");
+		vi.unstubAllGlobals();
 	});
 });

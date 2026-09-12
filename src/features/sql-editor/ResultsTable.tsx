@@ -17,6 +17,12 @@ export function ResultsTable({ result }: ResultsTableProps) {
 			>
 				<h3 className="font-semibold text-red-400 text-sm">Error</h3>
 				<p className="mt-1 font-mono text-red-300 text-sm">{result.error}</p>
+				{result.hint && (
+					<div className="mt-4 rounded-lg border border-amber-800 bg-amber-950/30 p-4">
+						<h3 className="font-semibold text-amber-400 text-sm">Hint</h3>
+						<p className="mt-1 font-mono text-amber-300 text-sm">{result.hint}</p>
+					</div>
+				)}
 			</motion.div>
 		);
 	}
