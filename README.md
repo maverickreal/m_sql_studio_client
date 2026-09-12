@@ -19,7 +19,7 @@ Web UI for the online SQL learning platform. Built with React 19, React Router 7
 
 ## Prerequisites
 
-- Node.js 22+
+- Bun
 - Running API Gateway (or use the parent [m_sql_studio](../m_sql_studio) Docker Compose setup)
 
 ## Getting Started
@@ -27,7 +27,7 @@ Web UI for the online SQL learning platform. Built with React 19, React Router 7
 ### 1. Install Dependencies
 
 ```bash
-npm ci
+bun install
 ```
 
 ### 2. Configure Environment Variables
@@ -41,7 +41,7 @@ Fill in all values. Variables must be prefixed with `VITE_` for Vite exposure.
 ### 3. Run in Development
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 Starts Vite dev server on port 3000 (configurable via `PORT` env). Proxies `/api` → `VITE_API_BASE_URL` (default `http://localhost:8000`).
@@ -49,7 +49,7 @@ Starts Vite dev server on port 3000 (configurable via `PORT` env). Proxies `/api
 ### 4. Build for Production
 
 ```bash
-npm run build
+bun run build
 ```
 
 Outputs to `dist/`. Runs `tsc -b` type-check first, then `vite build`.
@@ -57,7 +57,7 @@ Outputs to `dist/`. Runs `tsc -b` type-check first, then `vite build`.
 ### 5. Preview Production Build
 
 ```bash
-npm run preview
+bun run preview
 ```
 
 ### Docker
@@ -67,26 +67,26 @@ npm run preview
 docker build -t m-sql-studio-client .
 docker run -p 3000:80 m-sql-studio-client
 ```
-Multi-stage `node:22-alpine` build → `nginx:alpine` serve. Nginx proxies `/api/` to `http://api-gateway:8000`. `NGINX_SERVER_NAME` ARG substituted at runtime via `envsubst`.
+Multi-stage `bun` build → `nginx:alpine` serve. Nginx proxies `/api/` to `http://api-gateway:8000`. `NGINX_SERVER_NAME` ARG substituted at runtime via `envsubst`.
 
 **Development:**
 ```bash
 docker build -f Dockerfile.dev -t m-sql-studio-client-dev .
 docker run -p 3000:3000 -v $(pwd):/app m-sql-studio-client-dev
 ```
-Runs `npm run dev -- --host` for Vite HMR. Uses bind mounts + `CHOKIDAR_USEPOLLING=1` for file watching on macOS.
+Runs `bun run dev -- --host` for Vite HMR. Uses bind mounts + `CHOKIDAR_USEPOLLING=1` for file watching on macOS.
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Vite dev server (port 3000) |
-| `npm run build` | Type-check + production build |
-| `npm run preview` | Preview production build locally |
-| `npm run test` | Unit tests (Vitest, jsdom) |
-| `npm run test:e2e` | E2E tests (Playwright) |
-| `npm run health:check` | Biome lint check |
-| `npm run health:fix` | Biome auto-fix (includes unsafe fixes) |
+| `bun run dev` | Vite dev server (port 3000) |
+| `bun run build` | Type-check + production build |
+| `bun run preview` | Preview production build locally |
+| `bun run test` | Unit tests (Vitest, jsdom) |
+| `bun run test:e2e` | E2E tests (Playwright) |
+| `bun run health:check` | Biome lint check |
+| `bun run health:fix` | Biome auto-fix (includes unsafe fixes) |
 
 ## Project Structure
 
@@ -163,7 +163,7 @@ Routes are **lazily loaded** via react-router `lazy` in `src/app/router.tsx` for
 
 - **Imports**: Relative paths (no `@/` alias used in current code)
 - **Redux hooks**: From `react-redux` directly (typed dispatch via `useDispatch<AppDispatch>()`; `store/hooks.ts` only re-exports types)
-- **Formatting/linting**: Run `npm run health:check` before committing
+- **Formatting/linting**: Run `bun run health:check` before committing
 - **Tailwind**: Utility classes with `clsx`/`cn` pattern allowed (configured in biome `useSortedClasses` nursery rule)
 - **TypeScript**: Strict mode with `noUnusedLocals` and `noUnusedParameters`. Path alias `@/*` → `./src/*`
 
