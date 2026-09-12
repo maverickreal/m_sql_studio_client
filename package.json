@@ -4,9 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc -b && vite build",
-		"test": "vitest run",
+		"dev": "bun --bun vite",
+		"build": "tsc -b && bun --bun vite build",
+		"test": "vitest run --exclude '**/e2e/**'",
 		"test:e2e": "playwright test",
 		"preview": "vite preview",
 		"health:check": "biome check .",

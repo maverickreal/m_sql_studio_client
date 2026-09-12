@@ -1,15 +1,16 @@
-FROM node:22-alpine AS build
+# syntax=docker/dockerfile:1.4
+FROM oven/bun:1.2-alpine AS build
 
 WORKDIR /app
 
 ARG VITE_API_BASE_URL=
 ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package.json bun.lock* ./
+RUN bun install --frozen-lockfile
 
 COPY . .
-RUN npm run build
+RUN bun run build
 
 FROM nginx:alpine
 
